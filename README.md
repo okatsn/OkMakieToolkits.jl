@@ -1,4 +1,6 @@
 # OkMakieToolkits
+This package is created through `create_OkMakieToolkits.jl`; go to the file to see the template.
+
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://okatsn.github.io/OkMakieToolkits.jl/stable/)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://okatsn.github.io/OkMakieToolkits.jl/dev/)
