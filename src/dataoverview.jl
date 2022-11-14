@@ -5,8 +5,22 @@ rightfn(t) = ceil(maximum(t), gridsize)
 
 """
 `dataoverview!(df::DataFrame, xtype::DataType; gridsize = gridsize, set_left_edge=leftfn, set_right_edge=rightfn)` plot the overview of data in  DataFrame `df`. `xtype` specify the only column type (e.g., `DateTime`) for x-axis.
+
+# Example
+```julia
+using Dates, DataFrames, OkMakieToolkits, Makie
+a = randn(100)
+a[1:20] .= NaN
+b = Vector{Union{Missing, Float64}}(undef, 100)
+b[1:70] .= randn(70)
+b[71:90] .= NaN
+b[91:100] .= missing
+table_nan = DataFrame(:a => [1,2,NaN], :b => [missing,missing,5], :dt => collect(DateTime("2022-01-01T00:00:00"):Day(1):DateTime("2022-01-03T00:00:00")))
+f, ax, dfxx = dataoverview!(table_nan, DateTime; resolution = (800,500))
+Makie.save("Fig_dataoverview.eps", f)
+```
 """
-function dataoverview!(df::DataFrame, xtype::DataType; gridsize = gridsize, set_left_edge=leftfn, set_right_edge=rightfn)
+function dataoverview!(df::DataFrame, xtype::DataType; gridsize = gridsize, set_left_edge=leftfn, set_right_edge=rightfn, resolution = (800,600))
 
     iddt = isequal.(eltype.(eachcol(df)), xtype)
     xname = df[!, iddt] |> names |> only |> Symbol # You can have only 1 colume with its eltype being `DateTime`
@@ -50,7 +64,7 @@ function dataoverview!(df::DataFrame, xtype::DataType; gridsize = gridsize, set_
     vs = last.(last.(npts))        .|> Float64
 
 
-    f = Figure(; resolution=(850,500))
+    f = Figure(; resolution=resolution)
     ax = Axis(f[1,1])
     hmap = heatmap!(ax, xs, ys, vs; colormap = "diverging_rainbow_bgymr_45_85_c67_n256")
     ax.yticks[] = (first.(ytick_label), string.(last.(ytick_label)))
