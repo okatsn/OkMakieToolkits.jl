@@ -67,7 +67,7 @@ function dataoverview!(df::DataFrame, xtype::DataType; gridsize = gridsize, set_
     f = Figure(; resolution=resolution)
     ax = Axis(f[1,1])
     hmap = heatmap!(ax, xs, ys, vs; colormap = "diverging_rainbow_bgymr_45_85_c67_n256")
-    ax.yticks[] = (first.(ytick_label), string.(last.(ytick_label)))
+    ax.yticks[] = (first.(ytick_label), string.(last.(ytick_label))) # a tuple (values, names)
     ax.xticks[] = (first.(xtick_label), string.(last.(xtick_label)))
     Colorbar(f[1, 2], hmap, label = "missing data rate")
 
