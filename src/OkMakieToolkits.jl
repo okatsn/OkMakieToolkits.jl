@@ -24,7 +24,7 @@ export getxylimits, expandylim!, shrinkylim!, expandxylim!
 using PlotUtils: optimize_ticks
 using Dates
 include("datetimeticks.jl")
-export datetimeticks!, datetime2epochs
+export datetimeticks!, datetime2epochs, TimeAsX
 
 
 

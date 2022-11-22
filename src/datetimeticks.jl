@@ -1,4 +1,25 @@
-# TODO: consider a struct DateTimeAsX that binds t::DateTime with x::Vector{Integer}
+# TODO: consider a struct TimeAsX that binds t::DateTime with x::Vector{Integer}
+"""
+`TimeAsX` bind Integer indices to a `DateTime` array of the same size.
+"""
+struct TimeAsX
+    x::Vector{<:Int}
+    t::Vector{<:DateTime}
+    function TimeAsX(x, t)
+        @assert isequal(length(t), length(x)) "x and t in TimeAsX(x, t) must be equal in length."
+        new(x, t)
+    end
+end
+
+function TimeAsX(x, t::StepRange)
+    t = collect(t)
+    TimeAsX(x, t)
+end
+
+function TimeAsX(t)
+    x = eachindex(t) |> collect
+    TimeAsX(x, t)
+end
 
 """
 `datetimeticks!(ax2, t::Vector{DateTime}, x::Vector; datestrformat = "yyyy/mm/dd")` set x ticks to datestr format. `t` is the `DateTime` array that is not supported by Makie, `x` is a arbitrarily defined series of numbers that corresponds to `t` for `Makie.plot`. `x` and `t` must be the same length and should be pairwisely mapped.
@@ -76,4 +97,11 @@ function _datetimetick0(t, x_a)
     # x10 = x1 -x0
 
     return t0, t1, t10, x0, x1, x10
+end
+
+"""
+`datetimeticks!(ax2, DTX::TimeAsX; kwargs...)`. See `TimeAsX`
+"""
+function datetimeticks!(ax2, DTX::TimeAsX; kwargs...)
+    datetimeticks!(ax2, t::Vector{DateTime}, x_a::Vector; kwargs...)
 end
