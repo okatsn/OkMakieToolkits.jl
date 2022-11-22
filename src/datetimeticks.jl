@@ -21,6 +21,10 @@ function TimeAsX(t)
     TimeAsX(x, t)
 end
 
+function OkMakieToolkits.getindex(TX::TimeAsX, ind)
+    TimeAsX(TX.x[ind], TX.t[ind])
+end
+
 """
 `datetimeticks!(ax2, t::Vector{DateTime}, x::Vector; datestrformat = "yyyy/mm/dd")` set x ticks to datestr format. `t` is the `DateTime` array that is not supported by Makie, `x` is a arbitrarily defined series of numbers that corresponds to `t` for `Makie.plot`. `x` and `t` must be the same length and should be pairwisely mapped.
 
@@ -103,5 +107,5 @@ end
 `datetimeticks!(ax2, DTX::TimeAsX; kwargs...)`. See `TimeAsX`
 """
 function datetimeticks!(ax2, DTX::TimeAsX; kwargs...)
-    datetimeticks!(ax2, t::Vector{DateTime}, x_a::Vector; kwargs...)
+    datetimeticks!(ax2, DTX.t, DTX.x; kwargs...)
 end
