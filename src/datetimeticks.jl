@@ -1,3 +1,5 @@
+# TODO: consider a struct DateTimeAsX that binds t::DateTime with x::Vector{Integer}
+
 """
 `datetimeticks!(ax2, t::Vector{DateTime}, x::Vector; datestrformat = "yyyy/mm/dd")` set x ticks to datestr format. `t` is the `DateTime` array that is not supported by Makie, `x` is a arbitrarily defined series of numbers that corresponds to `t` for `Makie.plot`. `x` and `t` must be the same length and should be pairwisely mapped.
 
