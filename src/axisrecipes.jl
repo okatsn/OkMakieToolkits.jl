@@ -62,3 +62,8 @@ function secondyaxis(f_grid; color = :black, ylabel = "y")
     )
     return axright
 end
+
+
+function setxticklabelsoff!(ax)
+    ax.xticklabelsvisible[] = false
+end

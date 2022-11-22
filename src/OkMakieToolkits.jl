@@ -15,7 +15,7 @@ export dataoverview!
 
 
 include("axisrecipes.jl")
-export secondyaxis, blankaxis!
+export secondyaxis, blankaxis!, setxticklabelsoff!
 
 include("manipulatelimits.jl")
 export getxylimits, expandylim!, shrinkylim!, expandxylim!
