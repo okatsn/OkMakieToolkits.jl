@@ -18,6 +18,7 @@ DataFrames = "1"
 ShiftedArrays = "2"
 PlotUtils = "1"
 CairoMakie = "0.10"
+GeometryBasics = "0.4"
 julia = "1.6"
 
 [extras]
