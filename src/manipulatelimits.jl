@@ -62,3 +62,8 @@ function expandxylim!(ax, f, upper_expand_x, lower_expand_x, lower_expand_y, upp
     display(f); # this is required for expandxylim! to work properly
     expandxylim!(ax, upper_expand_x, lower_expand_x, lower_expand_y, upper_expand_y)
 end
+
+
+# TODO: log plots where all powers of 10 should be shown. https://docs.makie.org/v0.19.0/examples/blocks/axis/index.html#logticks
+
+# TODO: Try recipes: https://docs.makie.org/stable/documentation/recipes/index.html
