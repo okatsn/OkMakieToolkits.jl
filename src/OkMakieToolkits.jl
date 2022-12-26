@@ -30,4 +30,6 @@ using GeometryBasics
 include("custommarkers.jl")
 export PairedCircleGenerator
 
+include("linkaxes.jl")
+export linkaxes!, linkxaxes!, linkyaxes!
 end
