@@ -36,6 +36,7 @@ jobs:
             using Pkg;
             Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"))
             '
+      - uses: okatsn/add-registry@v1
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
       - uses: julia-actions/julia-processcoverage@v1
