@@ -1,6 +1,13 @@
-# TODO: consider a struct TimeAsX that binds t::DateTime with x::Vector{Integer}
+
 """
 `TimeAsX` bind Integer indices to a `DateTime` array of the same size.
+
+# Example
+```julia
+t = DateTime(2018,1,1):Day(1):DateTime(2018,1,10)
+x = 5:14
+TX = TimeAsX(x, t)
+```
 """
 struct TimeAsX
     x::Vector{<:Int}
@@ -16,6 +23,22 @@ function TimeAsX(x, t::StepRange)
     TimeAsX(x, t)
 end
 
+function TimeAsX(x::AbstractRange, t)
+    x = collect(x)
+    TimeAsX(x,t)
+end
+
+function TimeAsX(x::AbstractRange, t::StepRange)
+    TimeAsX(collect(x), collect(t))
+end
+
+"""
+# Example
+```julia
+t = DateTime(2018,1,1):Day(1):DateTime(2018,1,10)
+TX = TimeAsX(t)
+```
+"""
 function TimeAsX(t)
     x = eachindex(t) |> collect
     TimeAsX(x, t)
