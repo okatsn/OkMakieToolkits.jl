@@ -7,6 +7,11 @@
 t = DateTime(2018,1,1):Day(1):DateTime(2018,1,10)
 x = 5:14
 TX = TimeAsX(x, t)
+TX[1]
+```
+
+```julia-repl
+TimeAsX([5], [DateTime("2018-01-01T00:00:00")])
 ```
 """
 struct TimeAsX
@@ -30,6 +35,10 @@ end
 
 function TimeAsX(x::AbstractRange, t::StepRange)
     TimeAsX(collect(x), collect(t))
+end
+
+function TimeAsX(x::Number, t::DateTime)
+    TimeAsX([x], [t])
 end
 
 """
