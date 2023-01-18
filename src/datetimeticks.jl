@@ -145,3 +145,10 @@ end
 function datetimeticks!(ax2, DTX::TimeAsX; kwargs...)
     datetimeticks!(ax2, DTX.t, DTX.x; kwargs...)
 end
+
+"""
+`datetimeticks!(ax2, DTX::TimeAsX, tinc::DatePeriod; kwargs...)`. See `TimeAsX`
+"""
+function datetimeticks!(ax2, DTX::TimeAsX, tinc::DatePeriod; kwargs...)
+    datetimeticks!(ax2, DTX.t, DTX.x, tinc; kwargs...)
+end
