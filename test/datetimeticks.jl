@@ -22,7 +22,7 @@ end
                     DateTime(2022,1,4),
                     DateTime(2022,1,7),
                     DateTime(2022,1,8)
-                ]);
+                ]; check_approxid = true);
         true
     catch e
         false
@@ -35,7 +35,7 @@ end
                     DateTime(2022,1,3),
                     DateTime(2022,1,4),
                     DateTime(2022,1,5)
-                ]);
+                ]; check_approxid = true);
         false
     catch e
         true
@@ -56,6 +56,6 @@ end
                     DateTime(2022,1,4),
                     DateTime(2022,1,5)
                 ]);
-    @test try RangedTimeAsX(UTX); true catch e; false end
-    @test try RangedTimeAsX(TX); false catch e; true end
+    @test try RangedTimeAsX(UTX); true; catch e; false; end
+    @test try RangedTimeAsX(TX); false; catch e; true; end
 end

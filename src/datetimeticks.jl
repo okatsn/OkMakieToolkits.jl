@@ -115,13 +115,13 @@ Error will occur if `x` and `t` can not be converted to ranges of uniform step.
 """
 function RangedTimeAsX(x::Vector{<:Int}, t::Vector{<:DateTime})
     dxs = diff(x)
-    dts = [dt.value for dt in diff(t)]
+    dts = diff(t)
     dx = reduce(approxid, dxs)
     dt = reduce(approxid, dts) # error will occurs if it is not equally spaced
     xr = range(first(x), last(x), step = dx)
     tr = range(first(t), last(t), step = dt)
     @assert all(isapprox.(x, xr))
-    @assert all(isapprox.(t, tr))
+    @assert all(isequal.(t, tr))
     RangedTimeAsX(xr, tr, dx, dt)
 end
 
@@ -129,7 +129,7 @@ end
 `RangedTimeAsX(TX::TimeAsX)` convert a `TimeAsX` object to `RangedTimeAsX` if possible.
 """
 function RangedTimeAsX(TX::TimeAsX)
-    RangedTimeAsX(TX.x, Tx.t)
+    RangedTimeAsX(TX.x, TX.t)
 end
 
 """
