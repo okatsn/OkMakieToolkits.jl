@@ -1,6 +1,6 @@
 
 """
-`TimeAsX` bind Integer indices to a `DateTime` array of the same size.
+`TimeAsX(x, t; check_approxid = false)` bind Integer indices to a `DateTime` array of the same size.
 
 # Example
 ```julia
@@ -13,15 +13,32 @@ TX[1]
 ```julia-repl
 TimeAsX([5], [DateTime("2018-01-01T00:00:00")])
 ```
+
+If `check_approxid = true`, it checks whether dx/dt is approximately identical anywhere.
+
 """
 struct TimeAsX
     x::Vector{<:Int}
     t::Vector{<:DateTime}
-    function TimeAsX(x, t)
+    function TimeAsX(x, t; check_approxid = false)
+        if check_approxid
+            dxdt = diff(x) ./ [dt.value for dt in diff(t)]
+            reduce(approxid, dxdt) # Check if dxdt is always (approximately) identical.
+        end
         @assert isequal(length(t), length(x)) "x and t in TimeAsX(x, t) must be equal in length."
         new(x, t)
     end
 end
+
+
+# struct DurationTimeAsX
+#     dx::Int
+#     dt::TimePeriod
+#     function DurationTimeAsX(x, t)
+#         @assert isequal(length(t), length(x)) "x and t in TimeAsX(x, t) must be equal in length."
+#         new(x, t)
+#     end
+# end
 
 function TimeAsX(x, t::StepRange)
     t = collect(t)
@@ -41,6 +58,8 @@ function TimeAsX(x::Number, t::DateTime)
     TimeAsX([x], [t])
 end
 
+## Extending Base functions for TimeAsX
+
 """
 # Example
 ```julia
@@ -57,9 +76,61 @@ function OkMakieToolkits.getindex(TX::TimeAsX, ind)
     TimeAsX(TX.x[ind], TX.t[ind])
 end
 
+
 # function OkMakieToolkits.show(io, TX::TimeAsX)
 #     todo: a clean/concise demonstration of the output?
 # end
+
+
+"""
+struct RangedTimeAsX
+    x::AbstractRange
+    t::StepRange
+    dx::Int
+    dt::TimePeriod
+end
+
+Similar as `TimeAsX`, but `RangedTimeAsX` guarantee the step size to be uniform.
+"""
+struct RangedTimeAsX
+    x::AbstractRange
+    t::StepRange
+    dx::Int
+    dt::TimePeriod
+end
+
+"""
+`RangedTimeAsX(x::AbstractRange, t::StepRange)`.
+Error will occur if `x`, `t` are not of the same length.
+"""
+function RangedTimeAsX(x::AbstractRange, t::StepRange)
+    @assert isequal(length(t), length(x)) "x and t in RangedTimeAsX(x, t) must be equal in length."
+    new(x, t, x[2] - x[1], t[2] - t[1])
+end
+
+"""
+`RangedTimeAsX(x::Vector{<:Int}, t::Vector{<:DateTime})`.
+
+Error will occur if `x` and `t` can not be converted to ranges of uniform step.
+"""
+function RangedTimeAsX(x::Vector{<:Int}, t::Vector{<:DateTime})
+    dxs = diff(x)
+    dts = [dt.value for dt in diff(t)]
+    dx = reduce(approxid, dxs)
+    dt = reduce(approxid, dts) # error will occurs if it is not equally spaced
+    xr = range(first(x), last(x), step = dx)
+    tr = range(first(t), last(t), step = dt)
+    @assert all(isapprox.(x, xr))
+    @assert all(isapprox.(t, tr))
+    RangedTimeAsX(xr, tr, dx, dt)
+end
+
+"""
+`RangedTimeAsX(TX::TimeAsX)` convert a `TimeAsX` object to `RangedTimeAsX` if possible.
+"""
+function RangedTimeAsX(TX::TimeAsX)
+    RangedTimeAsX(TX.x, Tx.t)
+end
 
 """
 `datetimeticks!(ax2, t::Vector{DateTime}, x::Vector; datestrformat = "yyyy/mm/dd")` set x ticks to datestr format. `t` is the `DateTime` array that is not supported by Makie, `x` is a arbitrarily defined series of numbers that corresponds to `t` for `Makie.plot`. `x` and `t` must be the same length and should be pairwisely mapped.

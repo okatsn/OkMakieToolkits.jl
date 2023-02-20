@@ -1,7 +1,10 @@
 module OkMakieToolkits
 
-# Write your package code here.
+## Common functions
+using Dates
+include("approximatelyidentical.jl")
 
+## Ploting tools
 using Dates
 using DataFrames
 import ShiftedArrays: lag as lag
@@ -11,8 +14,6 @@ using Statistics
 using CairoMakie
 include("dataoverview.jl")
 export dataoverview!
-
-
 
 include("axisrecipes.jl")
 export secondyaxis, blankaxis!, setxticklabelsoff!
@@ -24,7 +25,7 @@ export getxylimits, expandylim!, shrinkylim!, expandxylim!
 using PlotUtils: optimize_ticks
 using Dates
 include("datetimeticks.jl")
-export datetimeticks!, datetime2epochs, TimeAsX
+export datetimeticks!, datetime2epochs, TimeAsX, RangedTimeAsX
 
 using GeometryBasics
 include("custommarkers.jl")
