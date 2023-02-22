@@ -55,7 +55,7 @@ timeseriesplot!(ax, x, values)
 end
 
 
-function TWAI_RF_23a.plot!(TTC::TimeSeriesPlot{<:Tuple{AbstractVector{<:Real},  AbstractVector{<:PredictData}}})
+function OkMakieToolkits.plot!(TTC::TimeSeriesPlot{<:Tuple{AbstractVector{<:Real},  AbstractVector{<:PredictData}}})
     times = TTC[1]
     soa = TTC[2]
     pred = Observable(Float64[])
@@ -100,7 +100,7 @@ end
 """
 Referencing: https://docs.makie.org/stable/examples/blocks/legend/index.html#creating_legend_entries_manually
 """
-function get_plot_elements(p::Combined{TWAI_RF_23a.timeseriesplot, <:Any})
+function get_plot_elements(p::Combined{OkMakieToolkits.timeseriesplot, <:Any})
     @info "load successful"
     elem_real = LineElement(color =   p.realcolor, linestyle = nothing)
     elem_test = MarkerElement(color = p.testcolor, marker = p.marker)

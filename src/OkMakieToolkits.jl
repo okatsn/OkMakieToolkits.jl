@@ -43,7 +43,7 @@ export linkaxes!, linkxaxes!, linkyaxes!
 ## Recipes
 using CairoMakie
 include("plot_recipes/time_series.jl")
-export PredictData, get_plot_elements
+export PredictData, get_plot_elements, timeseriesplot
 
 
 end
