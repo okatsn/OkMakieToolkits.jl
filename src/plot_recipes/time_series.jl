@@ -1,17 +1,24 @@
 """
 ```julia
 struct PredictData{T<:Real}
-    test::T
+    pred::T
     real::T
     nfold::Int
 end
 ```
 """
 struct PredictData{T<:Real}
-    test::T
+    pred::T
     real::T
     nfold::Int
 end
+
+"""
+An object that binds real data and predictions.
+
+`PredictData(pred, real) = PredictData(pred, real, 0)`
+"""
+PredictData(pred, real) = PredictData(pred, real, 0)
 
 """
 This is an experimental plot function of `timeseriesplot`.
@@ -51,16 +58,16 @@ end
 function TWAI_RF_23a.plot!(TTC::TimeSeriesPlot{<:Tuple{AbstractVector{<:Real},  AbstractVector{<:PredictData}}})
     times = TTC[1]
     soa = TTC[2]
-    test = Observable(Float64[])
+    pred = Observable(Float64[])
     real = Observable(Float64[])
 
     function update_plot(times, soa)
         # clear the vectors inside the observables
-        empty!(test[])
+        empty!(pred[])
         empty!(real[])
 
         for (t, pd) in zip(times, soa)
-            push!(test[], pd.test)
+            push!(pred[], pd.pred)
             push!(real[], pd.real)
         end
     end
@@ -75,7 +82,7 @@ function TWAI_RF_23a.plot!(TTC::TimeSeriesPlot{<:Tuple{AbstractVector{<:Real},  
 
     # vspan!
     lines!(TTC, times, real; color = TTC.realcolor, label = "data")
-    scatter!(TTC, times, test;
+    scatter!(TTC, times, pred;
             color = TTC.testcolor,
             markersize = TTC.markersize, label = "predict", marker = TTC.marker)
 
