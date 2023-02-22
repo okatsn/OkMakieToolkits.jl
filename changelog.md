@@ -16,3 +16,6 @@ New `RangedTimeAsX`
 New plot recipe `TimeSeriesPlot`
 - For `PredictData` object
 - Using `timeseriesplot!` and `timeseriesplot`
+
+## v0.4.1
+Deprecate `dataoverview!`.
