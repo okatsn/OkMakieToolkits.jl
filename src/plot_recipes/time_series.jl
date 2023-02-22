@@ -3,14 +3,14 @@
 struct PredictData{T<:Real}
     pred::T
     real::T
-    nfold::Int
+    fold::Int
 end
 ```
 """
 struct PredictData{T<:Real}
     pred::T
     real::T
-    nfold::Int
+    fold::Int
 end
 
 """
