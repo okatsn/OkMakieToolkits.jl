@@ -26,8 +26,10 @@ export PairedCircleGenerator
 include("linkaxes.jl")
 export linkaxes!, linkxaxes!, linkyaxes!
 
-
-
+using ShiftedArrays: lag
+using Chain, DataFrames
+include("lineseg.jl")
+export ContinuousLineSegments
 
 
 
