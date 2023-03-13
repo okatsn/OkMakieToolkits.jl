@@ -1,15 +1,14 @@
 struct ContinuousLineSegments
     table::DataFrame
     orderkey
-    valuekeys
+    valuekeys::Tuple
     function ContinuousLineSegments(df::AbstractDataFrame, orderkey, valuekeys)
         # orderkey = "time (ms)"
-        # valuekeys = [:SEP, :FIM]
         rlag(x) = lag(x, -1)
         df1 = @chain df begin
             select(orderkey => :order,
-                    valuekeys .=> rlag => x ->     "$(x)_1",
-                    valuekeys .=> identity => x -> "$(x)_0",
+                    collect(valuekeys) .=> rlag => x ->     "$(x)_1",
+                    collect(valuekeys) .=> identity => x -> "$(x)_0",
                     )
             stack(Not(:order))
             select(Not(:variable),
@@ -31,4 +30,5 @@ function OkMakieToolkits.linesegments!(ax::Axis, CLS::ContinuousLineSegments; kw
     # df = CLS.table;
     args = [CLS.table[!, k] for k in CLS.valuekeys]
     linesegments!(ax, args...;kwargs...)
+    ax.xlabel[], ax.ylabel[] = string.(CLS.valuekeys)
 end
