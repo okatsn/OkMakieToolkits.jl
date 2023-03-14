@@ -11,7 +11,7 @@ include("axisrecipes.jl")
 export secondyaxis, blankaxis!, setxticklabelsoff!
 
 include("manipulatelimits.jl")
-export getxylimits, expandylim!, shrinkylim!, expandxylim!
+export getxylimits, expandylim!, shrinkylim!, expandxylim!, getlimits
 
 
 using PlotUtils: optimize_ticks

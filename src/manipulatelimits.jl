@@ -42,6 +42,22 @@ function getxylimits(ax)
 end
 
 """
+`getlimits(ax::Axis, dim)` returns the `finallimits[]` of dimension `dim`.
+
+# Example
+```julia
+(x0, x1) = convert.(Float64, getlimits(ax::Axis, 1))
+(y0, y1) = convert.(Float64, getlimits(ax::Axis, 2))
+```
+"""
+function getlimits(ax::Axis, dim)
+    x0 = ax.finallimits[].origin[dim]
+    x1 = x0 + ax.finallimits[].widths[dim]
+
+    return (x0, x1)
+end
+
+"""
 `expandxylim!(ax, upper_expand_x, lower_expand_x, lower_expand_y, upper_expand_y)`
 TODO: merge with expandylim! in makietools.jl
 """
