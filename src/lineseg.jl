@@ -2,27 +2,39 @@ struct ContinuousLineSegments
     table::DataFrame
     orderkey
     valuekeys::Tuple
-    function ContinuousLineSegments(df::AbstractDataFrame, orderkey, valuekeys)
+    otherkeys
+    function ContinuousLineSegments(df::AbstractDataFrame, orderkey, valuekeys; otherkeys = [])
         # orderkey = "time (ms)"
         rlag(x) = lag(x, -1)
+
+        allkeys = vcat(orderkey, valuekeys..., otherkeys...)
+        alltypes = [eltype(df[!, k]) for k in allkeys]
+
         df1 = @chain df begin
-            select(orderkey => :order,
+            select(orderkey,
                     collect(valuekeys) .=> rlag => x ->     "$(x)_1",
                     collect(valuekeys) .=> identity => x -> "$(x)_0",
+                    collect(otherkeys) .=> rlag => x -> "$(x)_1",
+                    collect(otherkeys) .=> identity => x -> "$(x)_0",
                     )
-            stack(Not(:order))
+            stack(Not(orderkey))
             select(Not(:variable),
                     :variable => ByRow(x -> first(rsplit(x, "_"; limit = 2))) => :variable,
                     :variable => ByRow(x ->  last(rsplit(x, "_"; limit = 2))) => :shifted)
             sort(:shifted)
-            sort(:order)
+            sort(orderkey)
             groupby(:variable)
             combine(All())
             unstack
         end
+
+        select!(df1, [k => (v -> convert(Vector{tp}, v)) for (k, tp) in zip(allkeys, alltypes)]...;
+                renamecols = false)
+
         return new(df1[1:nrow(df1)-2, :], # the last row is missing in all valuekeys due to rlag.
                     orderkey,
-                    valuekeys)
+                    valuekeys,
+                    otherkeys)
     end
 end
 
