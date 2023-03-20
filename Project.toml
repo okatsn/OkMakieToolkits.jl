@@ -1,7 +1,7 @@
 name = "OkMakieToolkits"
 uuid = "4e74b330-6242-4c7a-bc50-5dcf56e2fdec"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.5.1"
+version = "0.6.0"
 
 [deps]
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
@@ -22,7 +22,7 @@ DataFrames = "1"
 GeometryBasics = "0.4"
 PlotUtils = "1"
 ShiftedArrays = "2"
-julia = "1.6"
+julia = "1.6, 1.8"
 
 [extras]
 CompatHelperLocal = "5224ae11-6099-4aaa-941d-3aab004bd678"

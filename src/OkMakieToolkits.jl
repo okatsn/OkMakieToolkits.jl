@@ -32,6 +32,8 @@ include("lineseg.jl")
 export ContinuousLineSegments
 
 
+include("subfigurelabel.jl")
+export SubfigureLabel
 
 
 
