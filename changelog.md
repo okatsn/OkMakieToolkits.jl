@@ -19,3 +19,7 @@ New plot recipe `TimeSeriesPlot`
 
 ## v0.4.1
 Deprecate `dataoverview!`.
+
+## v0.6.1
+- New `SubfigureLabel` iterator
+- CI and tests in Julia 1.8
