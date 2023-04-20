@@ -1,7 +1,7 @@
 using OkMakieToolkits
 using Documenter
 
-DocMeta.setdocmeta!(OkMakieToolkits, :DocTestSetup, :(using OkMakieToolkits); recursive=true)
+DocMeta.setdocmeta!(OkMakieToolkits, :DocTestSetup, :(using OkMakieToolkits, CairoMakie); recursive=true)
 
 makedocs(;
     modules=[OkMakieToolkits],
@@ -16,6 +16,7 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Colormap" => "colormap.md"
     ],
 )
 
