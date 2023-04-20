@@ -54,8 +54,8 @@ timeseriesplot!(ax, x, values)
     )
 end
 
-
-function OkMakieToolkits.plot!(TTC::TimeSeriesPlot{<:Tuple{AbstractVector{<:Real},  AbstractVector{<:PredictData}}})
+# It is more comprehensive to have `function CairoMakie.plot!` rather than `function OkMakieToolkits.plot!`, since the connotation of `plot!` here is exactly `CairoMakie.plot!`. Anyway, `function OkMakieToolkits.plot!` also works fine.
+function CairoMakie.plot!(TTC::TimeSeriesPlot{<:Tuple{AbstractVector{<:Real},  AbstractVector{<:PredictData}}})
     times = TTC[1]
     soa = TTC[2]
     pred = Observable(Float64[])
