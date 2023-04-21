@@ -7,8 +7,21 @@
     ax = Axis(f[:,:])
     out = traintestphase!(ax, TTMs)
     f
+    @testset isnothing(only(unique([TTM.offset for TTM in TTMs])))
 
 
     TTMsDT = [TrainTestMarker(Day(60), dt, Day(10), "test $i") for (i, dt) in enumerate(DateTime(2020,1,1):Month(1):DateTime(2021,1,1))]
-    OkMakieToolkits._offset!(TTMsDT)
+    offset0 = TTMsDT[1].left
+
+    f = Figure()
+    ax = Axis(f[:,:])
+    out = traintestphase!(ax, TTMsDT)
+    f
+    @test only(unique([TTM.offset for TTM in TTMsDT])) == offset0
+end
+
+
+@testset "test _offset!" begin
+    # OkMakieToolkits._offset!(TTMsDT)
+
 end

@@ -61,18 +61,22 @@ function CairoMakie.plot!(p::TrainTestPhase{<:Tuple{AbstractVector{<:TrainTestMa
 
 end
 
-_offset!(v::Vector{<:TrainTestMarker}) = _offset!(v, only(unique([TTM.unit for TTM in v])))
+_offset!(v::Vector{<:TrainTestMarker}) = _offset!(v,
+    only(unique([TTM.unit for TTM in v])),
+    only(unique([TTM.offset for TTM in v])))
 
 _offset!(v, unit) = v # do nothing
 
-function _offset!(v::Vector{<:TrainTestMarker}, ::Type{Millisecond})
-    x0 = minimum([TTM.left for TTM in v])
-    @info "$x0"
-    for TTM in v
-        TTM.left = TTM.left - x0
-        TTM.right = TTM.right - x0
-        TTM.middle = TTM.middle - x0
-        TTM.offset = x0
+function _offset!(v::Vector{<:TrainTestMarker}, ::Type{Millisecond}, offset)
+    if isnothing(offset)
+        x0 = minimum([TTM.left for TTM in v])
+        @info "$x0"
+        for TTM in v
+            TTM.left = TTM.left - x0
+            TTM.right = TTM.right - x0
+            TTM.middle = TTM.middle - x0
+            TTM.offset = x0
+        end
     end
     v
 end
