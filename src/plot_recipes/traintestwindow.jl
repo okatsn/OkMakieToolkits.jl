@@ -20,6 +20,8 @@ end
 
 _time2int(dt::DateTime) = Dates.datetime2epochms(dt)
 _time2int(dt::Date) = Dates.date2epochdays(dt)
+_int2time(int::Int, unit::Type{Millisecond}) = Dates.epochms2datetime(int)
+_int2time(int::Int, unit::Type{Day}) = Dates.epochdays2date(int)
 _timeunit(dt::DateTime) = Millisecond
 _timeunit(dt::Date) = Day
 
@@ -27,8 +29,9 @@ _timeunit(dt::Date) = Day
 @recipe(TrainTestPhase, v) do scene
     Attributes(
         a = "hello",
-        color_left = :red,
-        color_right = :blue,
+        color_left = :cyan2,
+        color_right = :plum1,
+        color_middle = :black,
         barwidth = 0.5,
         # kwargs_left = [strokecolor = :black, strokewidth = 1], # you cannot have this kind of vector
         # kwargs_left = (strokecolor = :black, strokewidth = 1), # you cannot have a tuple as attributes, for  MethodError: no method matching getindex(::Attributes)
@@ -40,6 +43,7 @@ function CairoMakie.plot!(p::TrainTestPhase{<:Tuple{AbstractVector{<:TrainTestMa
     _offset!(TTMs)
     color_right = p[:color_right][]
     color_left = p[:color_left][]
+    color_middle = p[:color_middle][]
     halfbarwidth = p[:barwidth][] * 0.5
     ys = 1:length(TTMs)
     for (TTM,y) in zip(TTMs, ys)
@@ -57,6 +61,8 @@ function CairoMakie.plot!(p::TrainTestPhase{<:Tuple{AbstractVector{<:TrainTestMa
         ]
         poly!(polytest , color = color_right)
         poly!(polytrain, color = color_left)
+        # poly!(Circle(Point2f(TTM.middle, y), halfbarwidth); color = color_middle)
+        scatter!(TTM.middle, y; color = color_middle)
     end
 
 end
@@ -79,6 +85,16 @@ function _offset!(v::Vector{<:TrainTestMarker}, ::Type{Millisecond}, offset)
         end
     end
     v
+end
+
+function datetimeticks!(ax, v::Vector{<:TrainTestMarker}; kwargs...)
+    offset = only(unique([TTM.offset for TTM in v]))
+    x0 = [TTM.left for TTM in v]
+    unit = only(unique([TTM.unit for TTM in v]))
+
+    x1 = [TTM.left + offset for TTM in v]
+    t1 = _int2time.(x1, Ref(unit))
+    datetimeticks!(ax, t1, x0; kwargs...)
 end
 
 # todo: make a colorbar method

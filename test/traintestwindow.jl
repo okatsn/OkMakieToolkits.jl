@@ -16,8 +16,12 @@
     f = Figure()
     ax = Axis(f[:,:])
     out = traintestphase!(ax, TTMsDT)
+    datetimeticks!(ax, TTMsDT) # TODO: test datetimeticks! for TTM or test _int2time, _time2int
+    ax.xticklabelrotation = 0.2π
     f
     @test only(unique([TTM.offset for TTM in TTMsDT])) == offset0
+
+
 end
 
 
