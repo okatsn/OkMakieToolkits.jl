@@ -45,5 +45,6 @@ export PredictData, get_plot_elements, timeseriesplot
 
 include("plot_recipes/traintestwindow.jl")
 export TwoHBoxes
+export setyticks!
 
 end

@@ -1,7 +1,7 @@
 name = "OkMakieToolkits"
 uuid = "4e74b330-6242-4c7a-bc50-5dcf56e2fdec"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.7.1"
+version = "0.7.2"
 
 [deps]
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"

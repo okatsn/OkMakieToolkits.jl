@@ -150,14 +150,22 @@ function _offset!(v::Vector{<:TwoHBoxes}, ::Type{Millisecond}, offset) # do offs
     v
 end
 
-function datetimeticks!(ax, v::Vector{<:TwoHBoxes}; kwargs...)
+function datetimeticks!(ax, v::Vector{<:TwoHBoxes}, args...; kwargs...)
     offset = only(unique([TTM.offset for TTM in v]))
-    x0 = [TTM.left for TTM in v]
+    x0l = [TTM.left for TTM in v]
+    x0m = [TTM.middle for TTM in v]
+    x0r = [TTM.right for TTM in v]
+    x0 = vcat(x0l, x0m, x0r) |> sort!
     unit = only(unique([TTM.unit for TTM in v]))
 
-    x1 = [TTM.left + offset for TTM in v]
+    x1 = [x0i + offset for x0i in x0]
     t1 = _int2time.(x1, Ref(unit))
-    datetimeticks!(ax, t1, x0; kwargs...)
+    datetimeticks!(ax, t1, x0, args...; kwargs...)
+end
+
+function setyticks!(ax, v::Vector{<:TwoHBoxes})
+    labels = [THB.label for THB in v]
+    ax.yticks = (eachindex(labels), labels)
 end
 
 # todo: make a colorbar method
