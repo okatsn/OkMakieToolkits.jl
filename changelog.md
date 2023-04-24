@@ -23,3 +23,6 @@ Deprecate `dataoverview!`.
 ## v0.6.1
 - New `SubfigureLabel` iterator
 - CI and tests in Julia 1.8
+
+## v0.7.0
+- A recipe `TwoHStackedBoxes` for the visualization of train-test intervals/partitions
