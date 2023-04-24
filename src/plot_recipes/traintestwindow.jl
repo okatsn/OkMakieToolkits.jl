@@ -1,5 +1,19 @@
 
-mutable struct TrainTestMarker
+"""
+```
+mutable struct TwoHBoxes
+    left::Int
+    middle::Int
+    right::Int
+    unit
+    label::String
+    offset::Union{Nothing, Int}
+end
+```
+
+See `TwoHStackedBoxes` and `twohstackedboxes`.
+"""
+mutable struct TwoHBoxes
     left::Int
     middle::Int
     right::Int
@@ -8,25 +22,74 @@ mutable struct TrainTestMarker
     offset::Union{Nothing, Int}
 end
 
-function TrainTestMarker(train::T, ref::TimeType, test::T, label::AbstractString) where T<:Period
-    middle = ref        |> _time2int
-    left = ref - train  |> _time2int
-    right = ref + test  |> _time2int
+"""
+`TwoHBoxes(t_left::T, t_ref::TimeType, t_right::T, label::AbstractString) where T<:Period`, where `t_ref` is converted from time to integer (using `_time2int`), with a unit determined by `_time2unit`.
+
+See also `_time2int`, `_time2unit`.
+"""
+function TwoHBoxes(t_left::T, t_ref::TimeType, t_right::T, label::AbstractString) where T<:Period
+    middle = t_ref        |> _time2int
+    left = t_ref - t_left  |> _time2int
+    right = t_ref + t_right  |> _time2int
     # DateTime(...) - DateTime(...) is always ::DateTime
     # Date(...) - Date(...) is always ::Date
-    unit = _timeunit(ref)
-    TrainTestMarker(left, middle, right, unit, label, nothing)
+    unit = _timeunit(t_ref)
+    TwoHBoxes(left, middle, right, unit, label, nothing)
 end
 
+"""
+`_time2int(dt::TimeType)` convert `dt` to integer.
+If `dt::DateTime`, it returns integer of unit `Millisecond`.
+"""
 _time2int(dt::DateTime) = Dates.datetime2epochms(dt)
+
+"""
+If `dt::Date`, it returns integer of unit `Day`.
+"""
 _time2int(dt::Date) = Dates.date2epochdays(dt)
+
+"""
+`_int2time(int::Int, unit)`.
+If `unit` is `Type{Millisecond}`, `_int2time` convert integer `int` to `DateTime` using `Dates.epochms2datetime`.
+"""
 _int2time(int::Int, unit::Type{Millisecond}) = Dates.epochms2datetime(int)
+
+"""
+If `unit` is `Type{Day}`, `_int2time` convert integer `int` to `Date` using `Dates.epochdays2date`.
+"""
 _int2time(int::Int, unit::Type{Day}) = Dates.epochdays2date(int)
+
+"""
+`_timeunit(dt::TimeType)`
+If `dt::DateTime`, the unit (of epoch/ordinal integer) is returned as `Millisecond`.
+"""
 _timeunit(dt::DateTime) = Millisecond
+
+"""
+If `dt::Date`, the unit (of epoch/ordinal integer) is returned as `Day`.
+"""
 _timeunit(dt::Date) = Day
 
+"""
+Define `left::Period`, `middle::TimeType`, and `right::Period` of each `TwoHBoxes` for two-segment bar, and plot these bars aligned with x axis with each corresponds to y ticks of `1:length(TTMs)` using `twohstackedboxes(TTMs)` where `TTMs::Vector{<:TwoHBoxes}`.
 
-@recipe(TrainTestPhase, v) do scene
+# Example
+```@example
+using Dates, CairoMakie
+TTMs = [TwoHBoxes(Day(60), dt, Day(10), "Test \$i") for (i, dt) in enumerate(Date(2020,1,1):Month(1):Date(2021,1,1))]
+f = Figure()
+ax = Axis(f[:,:])
+out = twohstackedboxes!(ax, TTMs)
+out
+```
+
+Noted that `twohstackedboxes!` not only mutate `ax::Axis` but also mutate `TTM` in `TTMs`, where `left`, `middle`, `right` is shifted by `offset` if `unit` is `DateTime`, since the ordinal number of `Millisecond` for `DateTime` is too large that will make Makie's plot wrongly displayed without raising an error.
+
+# See also
+- This function is created referencing [Julia Data Science: A Makie recipe for a DataFrame](https://juliadatascience.io/recipe_df)
+
+"""
+@recipe(TwoHStackedBoxes, v) do scene
     Attributes(
         a = "hello",
         color_left = :cyan2,
@@ -38,7 +101,7 @@ _timeunit(dt::Date) = Day
     )
 end
 
-function CairoMakie.plot!(p::TrainTestPhase{<:Tuple{AbstractVector{<:TrainTestMarker}}})
+function CairoMakie.plot!(p::TwoHStackedBoxes{<:Tuple{AbstractVector{<:TwoHBoxes}}})
     TTMs = p[:v][]
     _offset!(TTMs)
     color_right = p[:color_right][]
@@ -67,13 +130,13 @@ function CairoMakie.plot!(p::TrainTestPhase{<:Tuple{AbstractVector{<:TrainTestMa
 
 end
 
-_offset!(v::Vector{<:TrainTestMarker}) = _offset!(v,
+_offset!(v::Vector{<:TwoHBoxes}) = _offset!(v,
     only(unique([TTM.unit for TTM in v])),
     only(unique([TTM.offset for TTM in v])))
 
-_offset!(v, unit) = v # do nothing
+_offset!(v, unit, offset) = v # do nothing
 
-function _offset!(v::Vector{<:TrainTestMarker}, ::Type{Millisecond}, offset)
+function _offset!(v::Vector{<:TwoHBoxes}, ::Type{Millisecond}, offset) # do offset only when the unit is `Type{Millisecond}`.
     if isnothing(offset)
         x0 = minimum([TTM.left for TTM in v])
         @info "$x0"
@@ -87,7 +150,7 @@ function _offset!(v::Vector{<:TrainTestMarker}, ::Type{Millisecond}, offset)
     v
 end
 
-function datetimeticks!(ax, v::Vector{<:TrainTestMarker}; kwargs...)
+function datetimeticks!(ax, v::Vector{<:TwoHBoxes}; kwargs...)
     offset = only(unique([TTM.offset for TTM in v]))
     x0 = [TTM.left for TTM in v]
     unit = only(unique([TTM.unit for TTM in v]))
