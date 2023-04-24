@@ -27,7 +27,7 @@ end
 
 See also `_time2int`, `_time2unit`.
 """
-function TwoHBoxes(t_left::T, t_ref::TimeType, t_right::T, label::AbstractString) where T<:Period
+function TwoHBoxes(t_left::Period, t_ref::TimeType, t_right::Period, label::AbstractString)
     middle = t_ref        |> _time2int
     left = t_ref - t_left  |> _time2int
     right = t_ref + t_right  |> _time2int
