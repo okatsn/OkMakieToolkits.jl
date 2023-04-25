@@ -10,6 +10,7 @@ mutable struct TwoHBoxes
     offset::Union{Nothing, Int}
 end
 ```
+`left`, `middle`, and `right` are each the ordinal number for the left/right edges and the middle boundary for the stacked horizontal boxes. `unit` is the unit of these ordinal numbers.
 
 See `TwoHStackedBoxes` and `twohstackedboxes`.
 """
