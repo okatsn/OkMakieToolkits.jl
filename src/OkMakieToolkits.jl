@@ -36,6 +36,10 @@ include("subfigurelabel.jl")
 export SubfigureLabel
 
 
+include("categorical_colors.jl")
+export categorical_colors
+
+
 
 ## Recipes
 using CairoMakie
