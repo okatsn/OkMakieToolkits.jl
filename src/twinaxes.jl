@@ -17,6 +17,7 @@ function twinaxis(figpos::GridPosition; ax1=(; yticklabelcolor=:black), ax2=(; y
         yticklabelcolor=:dodgerblue,
         rightspinecolor=:dodgerblue,
         ytickcolor=:dodgerblue,
+        ygridvisible = false,
         ax2...)
     return (ax1, ax2)
 end
