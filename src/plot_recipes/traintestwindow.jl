@@ -20,7 +20,7 @@ mutable struct TwoHBoxes
     right::Int
     unit
     label::String
-    offset::Union{Nothing, Int}
+    offset::Union{Nothing,Int}
 end
 
 """
@@ -29,9 +29,9 @@ end
 See also `_time2int`, `_time2unit`.
 """
 function TwoHBoxes(t_left::Period, t_ref::TimeType, t_right::Period, label::AbstractString)
-    middle = t_ref        |> _time2int
-    left = t_ref - t_left  |> _time2int
-    right = t_ref + t_right  |> _time2int
+    middle = t_ref |> _time2int
+    left = t_ref - t_left |> _time2int
+    right = t_ref + t_right |> _time2int
     # DateTime(...) - DateTime(...) is always ::DateTime
     # Date(...) - Date(...) is always ::Date
     unit = _timeunit(t_ref)
@@ -76,7 +76,7 @@ Define `left::Period`, `middle::TimeType`, and `right::Period` of each `TwoHBoxe
 
 # Example
 ```@example
-using Dates, CairoMakie
+using Dates, Makie
 TTMs = [TwoHBoxes(Day(60), dt, Day(10), "Test \$i") for (i, dt) in enumerate(Date(2020,1,1):Month(1):Date(2021,1,1))]
 f = Figure()
 ax = Axis(f[:,:])
@@ -92,17 +92,17 @@ Noted that `twohstackedboxes!` not only mutate `ax::Axis` but also mutate `TTM` 
 """
 @recipe(TwoHStackedBoxes, v) do scene
     Attributes(
-        a = "hello",
-        color_left = :cyan2,
-        color_right = :plum1,
-        color_middle = :black,
-        barwidth = 0.5,
+        a="hello",
+        color_left=:cyan2,
+        color_right=:plum1,
+        color_middle=:black,
+        barwidth=0.5,
         # kwargs_left = [strokecolor = :black, strokewidth = 1], # you cannot have this kind of vector
         # kwargs_left = (strokecolor = :black, strokewidth = 1), # you cannot have a tuple as attributes, for  MethodError: no method matching getindex(::Attributes)
     )
 end
 
-function CairoMakie.plot!(p::TwoHStackedBoxes{<:Tuple{AbstractVector{<:TwoHBoxes}}})
+function Makie.plot!(p::TwoHStackedBoxes{<:Tuple{AbstractVector{<:TwoHBoxes}}})
     TTMs = p[:v][]
     _offset!(TTMs)
     color_right = p[:color_right][]
@@ -110,23 +110,23 @@ function CairoMakie.plot!(p::TwoHStackedBoxes{<:Tuple{AbstractVector{<:TwoHBoxes
     color_middle = p[:color_middle][]
     halfbarwidth = p[:barwidth][] * 0.5
     ys = 1:length(TTMs)
-    for (TTM,y) in zip(TTMs, ys)
+    for (TTM, y) in zip(TTMs, ys)
         polytrain = Point2f[
-            (TTM.left,   y - halfbarwidth),
+            (TTM.left, y - halfbarwidth),
             (TTM.middle, y - halfbarwidth),
             (TTM.middle, y + halfbarwidth),
-            (TTM.left,   y + halfbarwidth),
+            (TTM.left, y + halfbarwidth),
         ]
         polytest = Point2f[
             (TTM.middle, y - halfbarwidth),
-            (TTM.right,  y - halfbarwidth),
-            (TTM.right,  y + halfbarwidth),
+            (TTM.right, y - halfbarwidth),
+            (TTM.right, y + halfbarwidth),
             (TTM.middle, y + halfbarwidth),
         ]
-        poly!(polytest , color = color_right)
-        poly!(polytrain, color = color_left)
+        poly!(polytest, color=color_right)
+        poly!(polytrain, color=color_left)
         # poly!(Circle(Point2f(TTM.middle, y), halfbarwidth); color = color_middle)
-        scatter!(TTM.middle, y; color = color_middle)
+        scatter!(TTM.middle, y; color=color_middle)
     end
 
 end

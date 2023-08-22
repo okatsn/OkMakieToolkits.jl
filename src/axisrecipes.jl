@@ -14,19 +14,19 @@ blankaxis!(fpos, xmin, ymin, xmax, ymax)
 ```
 """
 function blankaxis!(fpos, xmin::T, ymin::T, xmax::T, ymax::T) where {T<:AbstractFloat}
-    ax = CairoMakie.Axis(fpos,
-        xticks = [xmin, xmax],
-        yticks = [ymin, ymax],
-        bottomspinevisible = false,
-        leftspinevisible = false,
-        xticklabelsvisible = false,
-        yticklabelsvisible = false,
-        xgridvisible = false,
-        ygridvisible = false,
-        topspinevisible = false,
-        rightspinevisible = false,
+    ax = Makie.Axis(fpos,
+        xticks=[xmin, xmax],
+        yticks=[ymin, ymax],
+        bottomspinevisible=false,
+        leftspinevisible=false,
+        xticklabelsvisible=false,
+        yticklabelsvisible=false,
+        xgridvisible=false,
+        ygridvisible=false,
+        topspinevisible=false,
+        rightspinevisible=false,
     )
-return ax
+    return ax
 end
 
 
@@ -47,18 +47,18 @@ that you can do `lines!(ax_right, ...)`
 # Further reading
 - [Is it possible to add a secondary y axis?](https://github.com/JuliaPlots/Makie.jl/issues/816)
 """
-function secondyaxis(f_grid; color = :black, ylabel = "y")
-        axright = CairoMakie.Axis(f_grid; ylabel = ylabel,
-        yaxisposition =:right,
-        xlabelvisible =false,
-        xticklabelsvisible =false,
+function secondyaxis(f_grid; color=:black, ylabel="y")
+    axright = Makie.Axis(f_grid; ylabel=ylabel,
+        yaxisposition=:right,
+        xlabelvisible=false,
+        xticklabelsvisible=false,
         xticksvisible=false,
-        xgridvisible = false,
-        ygridvisible = false,
-        ylabelcolor = color,
-        yticklabelcolor= color,
+        xgridvisible=false,
+        ygridvisible=false,
+        ylabelcolor=color,
+        yticklabelcolor=color,
         ytickcolor=color,
-        yminortickcolor = color
+        yminortickcolor=color
     )
     return axright
 end

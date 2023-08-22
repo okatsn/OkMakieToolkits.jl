@@ -20,7 +20,7 @@ If `check_approxid = true`, it checks whether dx/dt is approximately identical a
 struct TimeAsX
     x::Vector{<:Int}
     t::Vector{<:DateTime}
-    function TimeAsX(x, t; check_approxid = false)
+    function TimeAsX(x, t; check_approxid=false)
         if check_approxid
             dxdt = diff(x) ./ [dt.value for dt in diff(t)]
             reduce(approxid, dxdt) # Check if dxdt is always (approximately) identical.
@@ -47,7 +47,7 @@ end
 
 function TimeAsX(x::AbstractRange, t)
     x = collect(x)
-    TimeAsX(x,t)
+    TimeAsX(x, t)
 end
 
 function TimeAsX(x::AbstractRange, t::StepRange)
@@ -118,8 +118,8 @@ function RangedTimeAsX(x::Vector{<:Int}, t::Vector{<:DateTime})
     dts = diff(t)
     dx = reduce(approxid, dxs)
     dt = reduce(approxid, dts) # error will occurs if it is not equally spaced
-    xr = range(first(x), last(x), step = dx)
-    tr = range(first(t), last(t), step = dt)
+    xr = range(first(x), last(x), step=dx)
+    tr = range(first(t), last(t), step=dt)
     @assert all(isapprox.(x, xr))
     @assert all(isequal.(t, tr))
     RangedTimeAsX(xr, tr, dx, dt)
@@ -139,15 +139,15 @@ end
 ```julia
 t = df.datetime
 x = Dates.datetime2epochms.(t)
-x1 = x .- x[1] # to avoid glitchs in plotting with CairoMakie (due to the too-large values)
+x1 = x .- x[1] # to avoid glitchs in plotting with Makie (due to the too-large values)
 y = df.soil_water
-CairoMakie.scatter!(ax, x, y, markersize =3)
+Makie.scatter!(ax, x, y, markersize =3)
 datetimeticks!(ax2, t,x)
 
 ```
 
 """
-function datetimeticks!(ax2, t::Vector{DateTime}, x_a::Vector; datestrformat = "yyyy/mm/dd")
+function datetimeticks!(ax2, t::Vector{DateTime}, x_a::Vector; datestrformat="yyyy/mm/dd")
     t0, t1, t10, x0, x1, x10 = _datetimetick0(t, x_a)
 
     dateticks = optimize_ticks(extrema(t)...)[1]
@@ -175,7 +175,7 @@ datetimeticks!(
 ```
 
 """
-function datetimeticks!(ax2, t::Vector{DateTime}, x_a::Vector, tinc::DatePeriod; datestrformat = "yyyy/mm/dd", modify_fn = identity)
+function datetimeticks!(ax2, t::Vector{DateTime}, x_a::Vector, tinc::DatePeriod; datestrformat="yyyy/mm/dd", modify_fn=identity)
     t0, t1, t10, x0, x1, x10 = _datetimetick0(t, x_a)
     dateticks = range(t0, t1, step=tinc) |> collect
     dateticks = modify_fn(dateticks)
@@ -200,8 +200,8 @@ function _datetimetick0(t, x_a)
 
     t0, t1 = extrema(t)
     x0, x1 = extrema(x_a)
-    t10 = t1 -t0
-    x10 = x1 -x0
+    t10 = t1 - t0
+    x10 = x1 - x0
     # t0, t1 = map(f -> f(t), [minimum, maximum])
     # t10 = t1 -t0
     # x0, x1 = map(f -> f(x_a), [minimum, maximum])
