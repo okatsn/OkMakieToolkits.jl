@@ -1,7 +1,7 @@
 using OkMakieToolkits
 using Documenter
 
-DocMeta.setdocmeta!(OkMakieToolkits, :DocTestSetup, :(using OkMakieToolkits, CairoMakie); recursive=true)
+DocMeta.setdocmeta!(OkMakieToolkits, :DocTestSetup, :(using OkMakieToolkits, Makie); recursive=true)
 
 makedocs(;
     modules=[OkMakieToolkits],
@@ -12,15 +12,15 @@ makedocs(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://okatsn.github.io/OkMakieToolkits.jl",
         edit_link="main",
-        assets=String[],
+        assets=String[]
     ),
     pages=[
         "Home" => "index.md",
         "Colormap" => "colormap.md"
-    ],
+    ]
 )
 
 deploydocs(;
     repo="github.com/okatsn/OkMakieToolkits.jl",
-    devbranch="main",
+    devbranch="main"
 )

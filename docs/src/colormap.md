@@ -3,7 +3,7 @@
 Here is a cheat sheet modified from [Colors/Cheat sheet](https://docs.makie.org/stable/documentation/colors/index.html#cheat_sheet) of the documentation of Makie:
 
 ```@example a123
-using CairoMakie
+using Makie
 using Makie.Colors
 
 theme = Attributes(
@@ -76,7 +76,7 @@ end
 ```
 
 ```@example a123
-CairoMakie.cgrad(:viridis, 10)
+Makie.cgrad(:viridis, 10)
 ```
 
 Key points:

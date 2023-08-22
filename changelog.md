@@ -26,3 +26,7 @@ Deprecate `dataoverview!`.
 
 ## v0.7.0
 - A recipe `TwoHStackedBoxes` for the visualization of train-test intervals/partitions
+
+## v0.8.2
+- New feature `twinaxis`.
+- `CairoMakie` => `Makie` for all.

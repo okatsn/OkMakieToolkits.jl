@@ -47,15 +47,15 @@ timeseriesplot!(ax, x, values)
 """
 @recipe(TimeSeriesPlot) do scene
     Attributes(
-        testcolor = :brown2,
-        realcolor = :blue,
-        markersize = 4,
-        marker = '•',
+        testcolor=:brown2,
+        realcolor=:blue,
+        markersize=4,
+        marker='•',
     )
 end
 
-# It is more comprehensive to have `function CairoMakie.plot!` rather than `function OkMakieToolkits.plot!`, since the connotation of `plot!` here is exactly `CairoMakie.plot!`. Anyway, `function OkMakieToolkits.plot!` also works fine.
-function CairoMakie.plot!(TTC::TimeSeriesPlot{<:Tuple{AbstractVector{<:Real},  AbstractVector{<:PredictData}}})
+# It is more comprehensive to have `function Makie.plot!` rather than `function OkMakieToolkits.plot!`, since the connotation of `plot!` here is exactly `Makie.plot!`. Anyway, `function OkMakieToolkits.plot!` also works fine.
+function Makie.plot!(TTC::TimeSeriesPlot{<:Tuple{AbstractVector{<:Real},AbstractVector{<:PredictData}}})
     times = TTC[1]
     soa = TTC[2]
     pred = Observable(Float64[])
@@ -81,17 +81,17 @@ function CairoMakie.plot!(TTC::TimeSeriesPlot{<:Tuple{AbstractVector{<:Real},  A
     update_plot(times[], soa[])
 
     # vspan!
-    lines!(TTC, times, real; color = TTC.realcolor, label = "data")
+    lines!(TTC, times, real; color=TTC.realcolor, label="data")
     scatter!(TTC, times, pred;
-            color = TTC.testcolor,
-            markersize = TTC.markersize, label = "predict", marker = TTC.marker)
+        color=TTC.testcolor,
+        markersize=TTC.markersize, label="predict", marker=TTC.marker)
 
     TTC
 
     # x0x1 = extrema(TX.x[tst])
 
-            # vspan!(axt, x0x1...; color = colors_nfold(i))
-        # text!(axt, formatnfold(i); color = :white, position=(mean(x0x1), maxy), align=(:center, :top), rotation= 0.1π, textsize=15)
+    # vspan!(axt, x0x1...; color = colors_nfold(i))
+    # text!(axt, formatnfold(i); color = :white, position=(mean(x0x1), maxy), align=(:center, :top), rotation= 0.1π, textsize=15)
 
 
 end
@@ -100,10 +100,10 @@ end
 """
 Referencing: https://docs.makie.org/stable/examples/blocks/legend/index.html#creating_legend_entries_manually
 """
-function get_plot_elements(p::Combined{OkMakieToolkits.timeseriesplot, <:Any})
+function get_plot_elements(p::Combined{OkMakieToolkits.timeseriesplot,<:Any})
     @info "load successful"
-    elem_real = LineElement(color =   p.realcolor, linestyle = nothing)
-    elem_test = MarkerElement(color = p.testcolor, marker = p.marker)
+    elem_real = LineElement(color=p.realcolor, linestyle=nothing)
+    elem_test = MarkerElement(color=p.testcolor, marker=p.marker)
     return ([elem_real, elem_test], ["data", "prediction"])
 
 end

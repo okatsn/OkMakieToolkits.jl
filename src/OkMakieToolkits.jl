@@ -5,7 +5,10 @@ using Dates
 include("approximatelyidentical.jl")
 
 ## Ploting tools
-using CairoMakie
+using Makie
+
+include("twinaxes.jl")
+export twinaxis
 
 include("axisrecipes.jl")
 export secondyaxis, blankaxis!, setxticklabelsoff!
@@ -42,7 +45,7 @@ export categorical_colors
 
 
 ## Recipes
-using CairoMakie
+using Makie
 include("plot_recipes/time_series.jl")
 export PredictData, get_plot_elements, timeseriesplot
 
