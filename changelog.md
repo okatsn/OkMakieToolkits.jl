@@ -30,3 +30,6 @@ Deprecate `dataoverview!`.
 ## v0.8.2
 - New feature `twinaxis`.
 - `CairoMakie` => `Makie` for all.
+
+## v0.9.0
+- New method for `twinaxis`
