@@ -28,7 +28,7 @@ end
 
 # output
 
-nothing
+
 ```
 
 This function is contributed by Julius Krumbiegel on the makie channel of Slack, 2023-08-23.
