@@ -4,6 +4,9 @@ module OkMakieToolkits
 using Dates
 include("approximatelyidentical.jl")
 
+include("to_gridposition.jl")
+export to_gridposition
+
 ## Ploting tools
 using Makie
 
