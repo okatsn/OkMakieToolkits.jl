@@ -43,7 +43,6 @@ export SubfigureLabel
 
 
 include("categorical_colors.jl")
-export categorical_colors
 
 
 
