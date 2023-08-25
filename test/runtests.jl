@@ -29,12 +29,12 @@ end
 
 using Documenter
 @testset "DocTests" begin
-    DocMeta.setdocmeta!(OkMakieToolkits, :DocTestSetup, :(using OkMakieToolkits); recursive=true)
+    DocMeta.setdocmeta!(OkMakieToolkits, :DocTestSetup, :(using OkMakieToolkits, Makie); recursive=true)
     # using the package everywhere in the doc
     # See also https://documenter.juliadocs.org/stable/man/doctests/#Setup-Code
 
 
-    doctest(OkMakieToolkits; manual = false) # this makes jldoctest also be tested in a local test
+    doctest(OkMakieToolkits; manual=false) # this makes jldoctest also be tested in a local test
 end
 
 using CompatHelperLocal
