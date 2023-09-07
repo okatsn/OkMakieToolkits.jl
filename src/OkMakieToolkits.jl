@@ -5,7 +5,7 @@ using Dates
 include("approximatelyidentical.jl")
 
 include("to_gridposition.jl")
-export to_gridposition
+export to_gridposition, colrange, rowrange
 
 ## Ploting tools
 using Makie
