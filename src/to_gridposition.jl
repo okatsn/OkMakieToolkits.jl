@@ -37,14 +37,3 @@ function to_gridposition(block)
     gc = block.layoutobservables.gridcontent[]
     GridPosition(gc.parent, gc.span, gc.side)
 end
-
-"""
-`colrange(block)` returns the column range of the block (`Axis`).
-"""
-colrange(block) = block.layoutobservables.gridcontent[].span.cols
-
-
-"""
-`rowrange(block)` returns the row range of the block (`Axis`).
-"""
-rowrange(block) = block.layoutobservables.gridcontent[].span.rows

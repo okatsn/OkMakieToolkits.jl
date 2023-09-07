@@ -5,7 +5,11 @@ using Dates
 include("approximatelyidentical.jl")
 
 include("to_gridposition.jl")
-export to_gridposition, colrange, rowrange
+export to_gridposition
+
+include("colrowlink.jl")
+export colrange, rowrange
+export keeponlysamecollinked!, keeponlysamerowlinked!
 
 ## Ploting tools
 using Makie
