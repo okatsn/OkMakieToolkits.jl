@@ -1,3 +1,6 @@
+"""
+`gadfly_default(n)` generate a vector of `LCHab <: Colorant` colors, which are default colors of Gadfly.
+"""
 function gadfly_default(n)
     return distinguishable_colors(
         n,
