@@ -1,17 +1,26 @@
 module OkMakieToolkits
 
+using Makie
+
 ## Common functions
 using Dates
 include("approximatelyidentical.jl")
 
+## Ploting tools
+
+### Grid position and linking axis
+
 include("to_gridposition.jl")
 export to_gridposition
 
-## Ploting tools
-using Makie
+include("colrowlink.jl")
+export colrange, rowrange
+export keeponlysamecollinked!, keeponlysamerowlinked!
 
 include("twinaxes.jl")
 export twinaxis
+
+### Axis attributes
 
 include("axisrecipes.jl")
 export secondyaxis, blankaxis!, setxticklabelsoff!
@@ -32,6 +41,8 @@ export PairedCircleGenerator
 include("linkaxes.jl")
 export linkaxes!, linkxaxes!, linkyaxes!
 
+### Others
+
 using ShiftedArrays: lag
 using Chain, DataFrames
 include("lineseg.jl")
@@ -42,8 +53,11 @@ include("subfigurelabel.jl")
 export SubfigureLabel
 
 
-include("categorical_colors.jl")
+include("colors/categorical_colors.jl")
 
+using Colors: LCHab, distinguishable_colors, deuteranopic
+
+include("colors/gadfly_colors.jl")
 
 
 ## Recipes
