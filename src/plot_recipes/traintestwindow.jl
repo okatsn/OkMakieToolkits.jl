@@ -95,11 +95,20 @@ Noted that `twohstackedboxes!` not only mutate `ax::Axis` but also mutate `TTM` 
         a="hello",
         color_left=:cyan2,
         color_right=:plum1,
+        label_left="train",
+        label_right="test",
         color_middle=:black,
         barwidth=0.5,
         # kwargs_left = [strokecolor = :black, strokewidth = 1], # you cannot have this kind of vector
         # kwargs_left = (strokecolor = :black, strokewidth = 1), # you cannot have a tuple as attributes, for  MethodError: no method matching getindex(::Attributes)
     )
+end
+
+function legendoftwobox!(figpos, twh::Combined{OkMakieToolkits.twohstackedboxes,Tuple{Vector{TwoHBoxes}}}; kwargs...)
+    Legend(
+        figpos,
+        [PolyElement(; color=twh.color_left), PolyElement(; color=twh.color_right)],
+        [twh.label_left, twh.label_right]; kwargs...)
 end
 
 function Makie.plot!(p::TwoHStackedBoxes{<:Tuple{AbstractVector{<:TwoHBoxes}}})
