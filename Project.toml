@@ -1,7 +1,7 @@
 name = "OkMakieToolkits"
 uuid = "4e74b330-6242-4c7a-bc50-5dcf56e2fdec"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.9.2"
+version = "0.9.3"
 
 [deps]
 Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
@@ -16,6 +16,7 @@ Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
 Chain = "0.5"
+Colors = "0.12.10"
 DataFrames = "1.4 - 1.6"
 GeometryBasics = "0.3 - 0.4"
 Makie = "0.19.8"

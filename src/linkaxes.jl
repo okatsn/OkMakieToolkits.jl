@@ -70,6 +70,14 @@ function sameyticks!(f::Figure)
     __sameticks!(:yticks, f::Figure)
 end
 
+"""
+Do `samexticks!` and `sameyticks!`.
+"""
+function sameticks!(f::Figure)
+    samexticks!(f)
+    sameyticks!(f)
+end
+
 function __sameticks!(field::Symbol, f::Figure)
     axs = filter(x -> x isa Axis, f.content)
     lastax = pop!(axs)

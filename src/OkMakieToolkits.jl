@@ -40,6 +40,7 @@ export PairedCircleGenerator
 
 include("linkaxes.jl")
 export linkaxes!, linkxaxes!, linkyaxes!
+export samexticks!, sameyticks!, sameticks!
 
 ### Others
 
