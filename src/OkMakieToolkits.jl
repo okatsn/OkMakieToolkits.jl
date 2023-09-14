@@ -52,7 +52,7 @@ export ContinuousLineSegments
 
 include("subfigurelabel.jl")
 export SubfigureLabel
-
+export labelpanels!
 
 include("colors/categorical_colors.jl")
 
