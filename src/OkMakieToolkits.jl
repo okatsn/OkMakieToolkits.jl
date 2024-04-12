@@ -8,6 +8,7 @@ include("approximatelyidentical.jl")
 
 ## Ploting tools
 ### Handy tools that not yet a recipe
+using LinearAlgebra
 include("pointline.jl")
 export pointline!
 

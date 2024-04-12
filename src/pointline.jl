@@ -28,7 +28,7 @@ function pointline!(ax::Axis, head, tail; color=:black,
 end
 
 """
-`angled2(a, b)` returns the angle between a and b against b, where counterclockwise is positive.
+`angled2(a, b)` returns the angle **in degree** between a and b against b, where counterclockwise from `b` to `a` will be defined as positive.
 
 See https://discourse.julialang.org/t/how-to-find-angle-between-two-vectors/68149/4
 and also https://github.com/JeffreySarnoff/AngleBetweenVectors.jl
