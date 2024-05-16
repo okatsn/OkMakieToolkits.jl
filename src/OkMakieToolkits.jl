@@ -7,6 +7,12 @@ using Dates
 include("approximatelyidentical.jl")
 
 ## Ploting tools
+### Handy tools that not yet a recipe
+using LinearAlgebra
+include("pointline.jl")
+export pointline!
+
+
 
 ### Grid position and linking axis
 
@@ -40,6 +46,7 @@ export PairedCircleGenerator
 
 include("linkaxes.jl")
 export linkaxes!, linkxaxes!, linkyaxes!
+export samexticks!, sameyticks!, sameticks!
 
 ### Others
 
@@ -51,7 +58,7 @@ export ContinuousLineSegments
 
 include("subfigurelabel.jl")
 export SubfigureLabel
-
+export labelpanels!
 
 include("colors/categorical_colors.jl")
 
@@ -68,6 +75,7 @@ export PredictData, get_plot_elements, timeseriesplot
 
 include("plot_recipes/traintestwindow.jl")
 export TwoHBoxes
+export legendoftwobox!
 export setyticks!
 
 end

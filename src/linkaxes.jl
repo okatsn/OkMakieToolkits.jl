@@ -54,3 +54,34 @@ function __linkaxes!(fn, f::Figure)
     ifelse(isempty(axt), "nothing", axt)) for ax in axs] .|> x -> println("title: $x")
     return axs
 end
+
+"""
+`linkaxes` only ensure the coordinates are aligned, and in the case where the tick appearances are not the same we should use `samexticks!`, `sameyticks!`.
+
+"""
+function samexticks!(f::Figure)
+    __sameticks!(:xticks, f::Figure)
+end
+
+"""
+See `samexticks!`
+"""
+function sameyticks!(f::Figure)
+    __sameticks!(:yticks, f::Figure)
+end
+
+"""
+Do `samexticks!` and `sameyticks!`.
+"""
+function sameticks!(f::Figure)
+    samexticks!(f)
+    sameyticks!(f)
+end
+
+function __sameticks!(field::Symbol, f::Figure)
+    axs = filter(x -> x isa Axis, f.content)
+    lastax = pop!(axs)
+    for ax in axs
+        getfield(ax, field)[] = getfield(lastax, field)[]
+    end
+end
