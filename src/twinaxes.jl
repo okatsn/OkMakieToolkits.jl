@@ -19,7 +19,7 @@ By default, `yticklabelcolor` `ytickcolor` and left (right) spinecolor for left 
 # Example
 
 ```jldoctest
-using Makie, OkMakieToolkits
+using CairoMakie, OkMakieToolkits
 f = Figure()
 left_ax, right_ax = twinaxis(f[1,1];
     left_color = :black, # left side looks all in black
@@ -29,7 +29,7 @@ left_ax, right_ax = twinaxis(f[1,1];
 left_ax.yticklabelcolor[]
 
 # output
-RGBA{Float32}(0.0f0,0.0f0,1.0f0,1.0f0)
+:blue
 ```
 
 Ref: https://beautiful.makie.org/dev/examples/generated/2d/lines/line_twin_axis/
