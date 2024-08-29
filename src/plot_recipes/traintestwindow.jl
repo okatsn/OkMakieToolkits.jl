@@ -104,7 +104,8 @@ Noted that `twohstackedboxes!` not only mutate `ax::Axis` but also mutate `TTM` 
     )
 end
 
-function legendoftwobox!(figpos, twh::Combined{OkMakieToolkits.twohstackedboxes,Tuple{Vector{TwoHBoxes}}}; kwargs...)
+# `Makie.Combined` is deprecated. See https://discourse.julialang.org/t/ann-makie-v0-20/106569/11?u=okatsn
+function legendoftwobox!(figpos, twh::Makie.Plot{OkMakieToolkits.twohstackedboxes,Tuple{Vector{TwoHBoxes}}}; kwargs...)
     Legend(
         figpos,
         [PolyElement(; color=twh.color_left), PolyElement(; color=twh.color_right)],

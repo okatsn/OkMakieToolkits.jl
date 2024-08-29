@@ -100,7 +100,7 @@ end
 """
 Referencing: https://docs.makie.org/stable/examples/blocks/legend/index.html#creating_legend_entries_manually
 """
-function get_plot_elements(p::Combined{OkMakieToolkits.timeseriesplot,<:Any})
+function get_plot_elements(p::Makie.Plot{OkMakieToolkits.timeseriesplot,<:Any})
     @info "load successful"
     elem_real = LineElement(color=p.realcolor, linestyle=nothing)
     elem_test = MarkerElement(color=p.testcolor, marker=p.marker)
