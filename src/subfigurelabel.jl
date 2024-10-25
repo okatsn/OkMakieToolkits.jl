@@ -22,7 +22,7 @@ Base.length(SL::SubfigureLabel) = SL.count
 
 """
 ```julia
-fig = Figure(; resolution=(1100, 580))
+fig = Figure(; size=(1100, 580))
 f0 = fig[1, 1] = GridLayout() # This is intended since `rowsize!` can only modify GridLayout
 f11 = f0[1, 1] = GridLayout()
 f21 = f0[2, 1] = GridLayout()

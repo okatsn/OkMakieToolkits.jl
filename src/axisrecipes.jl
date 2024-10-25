@@ -6,7 +6,7 @@ creates an empty Makie Axis object at grid position `fpos`.
 
 # Example
 ```julia
-f = Figure(;resolution=(1400,1000))
+f = Figure(;size=(1400,1000))
 gleft = f[1:3, 1] = GridLayout()
 gright = f[1:3, 2:3] = GridLayout()
 fpos = gright[0, :]

@@ -133,10 +133,10 @@ function Makie.plot!(p::TwoHStackedBoxes{<:Tuple{AbstractVector{<:TwoHBoxes}}})
             (TTM.right, y + halfbarwidth),
             (TTM.middle, y + halfbarwidth),
         ]
-        poly!(polytest, color=color_right)
-        poly!(polytrain, color=color_left)
+        poly!(p, polytest, color=color_right)
+        poly!(p, polytrain, color=color_left)
         # poly!(Circle(Point2f(TTM.middle, y), halfbarwidth); color = color_middle)
-        scatter!(TTM.middle, y; color=color_middle)
+        scatter!(p, TTM.middle, y; color=color_middle)
     end
 
 end
