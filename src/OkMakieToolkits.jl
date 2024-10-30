@@ -39,6 +39,7 @@ using PlotUtils: optimize_ticks
 using Dates
 include("datetimeticks.jl")
 export datetimeticks!, datetime2epochs, TimeAsX, RangedTimeAsX
+export LetTicksAsIs
 
 using GeometryBasics
 include("custommarkers.jl")

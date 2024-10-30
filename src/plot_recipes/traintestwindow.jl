@@ -161,7 +161,7 @@ function _offset!(v::Vector{<:TwoHBoxes}, ::Type{Millisecond}, offset) # do offs
     v
 end
 
-function datetimeticks!(ax, v::Vector{<:TwoHBoxes}, args...; kwargs...)
+function twohboxes2tx(v::Vector{<:TwoHBoxes})
     offset = only(unique([TTM.offset for TTM in v]))
     x0l = [TTM.left for TTM in v]
     x0m = [TTM.middle for TTM in v]
@@ -171,7 +171,18 @@ function datetimeticks!(ax, v::Vector{<:TwoHBoxes}, args...; kwargs...)
 
     x1 = [x0i + offset for x0i in x0]
     t1 = _int2time.(x1, Ref(unit))
+    return t1, x0
+end
+
+
+function datetimeticks!(ax, v::Vector{<:TwoHBoxes}, args...; kwargs...)
+    t1, x0 = twohboxes2tx(v)
     datetimeticks!(ax, t1, x0, args...; kwargs...)
+end
+
+function datetimeticks!(ax2, v::Vector{<:TwoHBoxes}, ::LetTicksAsIs; kwargs...)
+    t1, x0 = twohboxes2tx(v)
+    datetimeticks!(ax2, t1, x0, LetTicksAsIs(); kwargs...)
 end
 
 function setyticks!(ax, v::Vector{<:TwoHBoxes})

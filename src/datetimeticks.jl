@@ -185,6 +185,26 @@ function datetimeticks!(ax2, t::Vector{DateTime}, x_a::Vector, tinc::DatePeriod;
     ax2.xticks[] = (xticks, xticklabels)
 end
 
+"""
+`LetTicksAsIs` is a singleton.
+`datetimeticks!(args..., LetTicksAsIs())` should eventually falls back to `datetimeticks!(ax2, t, x, ::LetTicksAsIs)` that create date time ticks at exactly the position of `t` and `x`, no matter whether they overlap with each other or not.
+"""
+struct LetTicksAsIs end
+
+datetimeticks!(ax2, tx::TimeAsX, ::LetTicksAsIs; kwargs...) = datetimeticks!(ax2, tx.t, tx.x, LetTicksAsIs(); kwargs...)
+
+
+"""
+`datetimeticks!(ax2, t, x, ::LetTicksAsIs; kwargs...)` creates date-time ticks and labels at exactly the position of `t` and `x`, no matter whether they overlap with each other or not.
+"""
+function datetimeticks!(ax2, t, x, ::LetTicksAsIs; datestrformat="yyyy/mm/dd", modify_fn=identity)
+    t0, t1, t10, x0, x1, x10 = _datetimetick0(t, x)
+    dateticks = t |> modify_fn
+    xticks, xticklabels = ticklabelconvert(t0, t1, t10, x0, x1, x10, dateticks, datestrformat)
+
+    ax2.xticks[] = (xticks, xticklabels)
+end
+
 function ticklabelconvert(t0, t1, t10, x0, x1, x10, dateticks, datestrformat)
     xticks = ((dateticks .- t0) ./ t10) .* x10 .+ x0
     xticklabels = Dates.format.(dateticks, datestrformat)
