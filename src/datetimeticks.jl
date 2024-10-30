@@ -169,15 +169,29 @@ datetimeticks!(
     [0, 1], # `x` for `Makie.plot(x, ...)`
     Day(3); # tick every 3 days
     datestrformat = "yyyy/mm/dd",
-    modify_fn = x -> floor.(x, Day)
+    modify_fn = dateticks -> floor.(dateticks, Day)
 )
 
 ```
 
+By default, `datetimeticks!` will create an additional set of tick and label, to ensure `t[end]` is on the left of the rightmost tick.
+You can drop it by:
+
+```julia
+datetimeticks!(
+    ax2,
+    [DateTime(2012,2,5,3,15,0), DateTime(2012,3,5,3,15,0)],
+    [0, 1], # `x` for `Makie.plot(x, ...)`
+    Day(3); # tick every 3 days
+    datestrformat = "yyyy/mm/dd",
+    modify_fn = dateticks -> dateticks[1:end-1]
+)
+
+```
 """
 function datetimeticks!(ax2, t::Vector{DateTime}, x_a::Vector, tinc::DatePeriod; datestrformat="yyyy/mm/dd", modify_fn=identity)
     t0, t1, t10, x0, x1, x10 = _datetimetick0(t, x_a)
-    dateticks = range(t0, t1, step=tinc) |> collect
+    dateticks = range(t0, t1 + tinc, step=tinc) |> collect # the `+tinc` is intended to ensure `t1` is at the left of the rightmost tick.
     dateticks = modify_fn(dateticks)
 
     xticks, xticklabels = ticklabelconvert(t0, t1, t10, x0, x1, x10, dateticks, datestrformat)
