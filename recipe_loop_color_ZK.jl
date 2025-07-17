@@ -1,26 +1,23 @@
 using CairoMakie
 
-@recipe(Plot_1d_Layer_Model, thicknesses, values) do scene
-    Attributes(
-        z0=0,
-    )
+@recipe Plot_1d_Layer_Model (thicknesses, values) begin
+    "Elevation of the surface"
+    z0 = 0
+    Makie.documented_attributes(Stairs)...
 end
 
-
 function Makie.plot!(plot::Plot_1d_Layer_Model)
-
     thicknesses = plot[1][]
     values = plot[2][]
-    # z0 = plot[:z0][]
+    z0 = plot[:z0][]
 
     x = vcat(values, values[end])
-    y = vcat(0, 0 .- cumsum(thicknesses), -1e10)
+    y = vcat(z0, z0 .- cumsum(thicknesses), -1e10)
 
-    stairs!(plot, x, y)
+    stairs!(plot, plot.attributes, x, y)
 
     return plot
 end
-
 
 fig = Figure(size=(900, 600))
 ax = Axis(fig[1, 1], xlabel="Resistivity (Ω·m)", ylabel="Elevation (m)")
